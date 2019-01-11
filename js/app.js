@@ -5,6 +5,7 @@
  //Defines card
 var card = $('.card');
 
+
 //Adds open and show classes to clicked objects.
 card.on('click', function(){
     $(this).addClass("open show");
