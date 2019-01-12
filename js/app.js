@@ -18,13 +18,13 @@ card.on('click', function(){
     //If two cards have been open, check if they have the same icon
     if (openCards.length >=2) {
         //if they have the same icon class, it's a match
-        if (openCards[0] == openCards[1]) {
-            //Gotta access the I last class to see if they match WIP
-            console.log(openCards[0], openCards[1]);
+        if (openCards[0].html() == openCards[1].html()) {
+            console.log("match!");
         }
         else {
             console.log('no match :c');
         }
+
     }
 });
 
