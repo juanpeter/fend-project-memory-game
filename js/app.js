@@ -2,16 +2,31 @@
  * Create a list that holds all of your cards
  */
 
- //Defines card
+//Defines card
 var card = $('.card');
+//Makes card Array
+var cardArray = jQuery.makeArray(card);
+//Array of open cards
+var openCards = [];
 
-
-//Adds open and show classes to clicked objects.
+//What if appending elements in a openCards array that have the class ('open')?
 card.on('click', function(){
+    //Adds classes open and show
     $(this).addClass("open show");
+    //Appends those elements to the openCards array
+    openCards.push($(this));
+    //If two cards have been open, check if they have the same icon
+    if (openCards.length >=2) {
+        //if they have the same icon class, it's a match
+        if (openCards[0] == openCards[1]) {
+            //Gotta access the I last class to see if they match WIP
+            console.log(openCards[0], openCards[1]);
+        }
+        else {
+            console.log('no match :c');
+        }
+    }
 });
-
-//Need to allow only 2 moves, and if the cards dont match, 
 
 /*
  * Display the cards on the page
