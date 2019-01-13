@@ -9,7 +9,6 @@ var cardArray = jQuery.makeArray(card);
 //Array of open cards
 var openCards = [];
 
-//What if appending elements in a openCards array that have the class ('open')?
 card.on('click', function(){
     //Adds classes open and show
     $(this).addClass("open show");
@@ -19,10 +18,31 @@ card.on('click', function(){
     if (openCards.length >=2) {
         //if they have the same icon class, it's a match
         if (openCards[0].html() == openCards[1].html()) {
-            console.log("match!");
+            //Adds class ('match') for all openCards Elemments
+            openCards[0].addClass("match");
+            openCards[1].addClass("match");
+            //Removes classes ('open show') from all openCards Elements
+            openCards[0].removeClass("open show");
+            openCards[1].removeClass("open show");
+            //Remove elements from array after done
+            openCards.splice(0,2);
         }
         else {
-            console.log('no match :c');
+            //Removes classes ('open show') from all openCards Elements
+            openCards[0].removeClass("open show");
+            openCards[1].removeClass("open show");
+            //Remove elements from array after done
+            openCards.splice(0,2);
+            /*Works well, but needs to display ('open show') for both elements for at least
+            1,5 seconds for feedback
+            */
+
+            //Made this function, but setTimeout doesnt work
+            // function removeClasses() {
+            //     //Removes classes ('open show') from all openCards Elements
+            //     openCards[0].removeClass("open show");
+            //     openCards[1].removeClass("open show");
+            // }
         }
 
     }
