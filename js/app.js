@@ -28,24 +28,19 @@ card.on('click', function(){
             openCards.splice(0,2);
         }
         else {
-            //Removes classes ('open show') from all openCards Elements
-            openCards[0].removeClass("open show");
-            openCards[1].removeClass("open show");
-            //Remove elements from array after done
-            openCards.splice(0,2);
-            /*Works well, but needs to display ('open show') for both elements for at least
-            1,5 seconds for feedback
-            */
-
-            //Made this function, but setTimeout doesnt work
-            // function removeClasses() {
-            //     //Removes classes ('open show') from all openCards Elements
-            //     openCards[0].removeClass("open show");
-            //     openCards[1].removeClass("open show");
-            // }
+            //Timer of 0.75 seconds so people can see the chosen cards
+            setTimeout(() => {
+                //Removes classes ('open show') from all openCards Elements
+                openCards[0].removeClass("open show");
+                openCards[1].removeClass("open show");
+                //Remove elements from array after done
+                openCards.splice(0,2);
+            }, 750); 
         }
-
     }
+
+    /*The function works well, but removeClass
+     and addClass could be optimized with loops*/
 });
 
 /*
