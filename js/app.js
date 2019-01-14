@@ -41,7 +41,13 @@ card.on('click', function(){
 
     /*The function works well, but removeClass
      and addClass could be optimized with loops*/
+
+     //if all cards have the class 'match', the game is over and the player wins
+     if ($('.match').length == 16) {
+         console.log('win!')
+     }
 });
+
 
 /*
  * Display the cards on the page
