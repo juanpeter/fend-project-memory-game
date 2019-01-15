@@ -44,7 +44,7 @@ card.on('click', function(){
 
      //if all cards have the class 'match', the game is over and the player wins
      if ($('.match').length == 16) {
-         console.log('win!')
+        $('#modal').modal();
      }
 });
 
