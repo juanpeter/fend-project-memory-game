@@ -4,8 +4,6 @@
 
 //Defines card
 var card = $('.card');
-//Makes card Array
-var cardArray = jQuery.makeArray(card);
 //Array of open cards
 var openCards = [];
 //stars
@@ -91,6 +89,28 @@ card.on('click', function(){
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
+
+/*
+    Even though the shuffle is working, cards are not changing place
+    Use a building page function like html() to build a custom page every load
+    Deleting the cards makes cardArray empty, gotta work on it
+
+    Create a card element that can be multiplied and be sure it has two of the classes
+    selected randomly
+*/
+
+$(window).on('load', function(){
+    //Make cards
+    for (let i = 0; i < 16; i++){
+        $('.deck').append("<li class='card'><i class='fa'></i></li>");
+    }   
+});
+
+//Makes card Array
+var cardArray = jQuery.makeArray(card);
+
+//randomize cards on document load
+window.onload = shuffle(cardArray)
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
