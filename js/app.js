@@ -8,10 +8,31 @@ var card = $('.card');
 var cardArray = jQuery.makeArray(card);
 //Array of open cards
 var openCards = [];
+//stars
+var starArray = jQuery.makeArray($('i.fa.fa-star'));
+//moves
+var moves = 0;
 
 card.on('click', function(){
     //Adds classes open and show
     $(this).addClass("open show");
+    //Adds a 'move' counter
+    moves +=1;
+    //Print the number of moves the player did
+    $('.moves').text(moves);
+    //Change full stars to white stars on threshold
+    if (moves >= 20) {
+        $(starArray[0]).removeClass('fa');
+        $(starArray[0]).addClass('far');
+    }
+    if (moves >= 30) {
+        $(starArray[1]).removeClass('fa');
+        $(starArray[1]).addClass('far');
+    }
+    if (moves >= 40) {
+        $(starArray[2]).removeClass('fa');
+        $(starArray[2]).addClass('far');
+    }
     //Appends those elements to the openCards array
     openCards.push($(this));
     //If two cards have been open, check if they have the same icon
@@ -44,10 +65,25 @@ card.on('click', function(){
 
      //if all cards have the class 'match', the game is over and the player wins
      if ($('.match').length == 16) {
+        //Print stars on the "you won" modal;
+        $('#final-score').append(starArray);
+        //print message
+        if (moves <= 20) {
+            $('#final-score').append("<br><p>You got all three stars woooooo!</p>");
+        }
+        else if (moves >= 20 && moves < 30) {
+            $('#final-score').append("<br><p>You got two stars, good job!</p>");
+        }
+        else if (moves >= 30 && moves < 40) {
+            $('#final-score').append("<br><p>You got one star, don't give up!</p>");
+        }
+        else if (moves >= 40) {
+            $('#final-score').append("<br><p>You got no stars, but you can do it next time!</p>");
+        }
+        //Calls the modal
         $('#modal').modal();
      }
 });
-
 
 /*
  * Display the cards on the page
