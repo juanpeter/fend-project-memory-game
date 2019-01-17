@@ -4,12 +4,82 @@
 
 //Defines card
 var card = $('.card');
+var type = ['fa-gem','fa-paper-plane','fa-anchor','fa-bolt','fa-cube','fa-leaf', 'fa-bicycle','fa-bomb'];
 //Array of open cards
 var openCards = [];
 //stars
 var starArray = jQuery.makeArray($('i.fa.fa-star'));
 //moves
 var moves = 0;
+
+/*
+ * Display the cards on the page
+ *   - shuffle the list of cards using the provided "shuffle" method below
+ *   - loop through each card and create its HTML
+ *   - add each card's HTML to the page
+ */
+
+/*
+    Create all the javascript objects, then, shuffle classes on them
+*/
+
+//Make cards on load
+// $(window).on('load', function(){
+//     //make 16 cards
+//     for (let i = 0; i < 16; i++){
+//         //append this html to the .deck ul
+//         $('.deck').append("<li class='card'><i class='fa'></i></li>");
+//         //pick a random class
+//     }
+//     $('.card').each(function(){
+//         console.log('does this work')
+//         var cardType = shuffle(type);
+//         //add this class to the new element
+//         $('.card').addClass(cardType);
+//     })
+// });
+
+//this works, only needs to limit the times a class can appear, prob with a if else
+$(window).on('load', function(){
+    //makes a array of cards
+    var cardArray = jQuery.makeArray($('.deck li i.fa'));
+    //shuffle card types
+    for (let i = 0; i < 16; i++){
+        //shuffles the class
+        var cardType = shuffle(type);
+        //ads class to the card
+        $(cardArray[i]).addClass(cardType[0]);
+        //just so you can see for now
+        $('.card').addClass('open show');
+    };
+});
+
+// Shuffle function from http://stackoverflow.com/a/2450976
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+}
+
+
+/*
+ * set up the event listener for a card. If a card is clicked:
+ *  - display the card's symbol (put this functionality in another function that you call from this one)
+ *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
+ *  - if the list already has another card, check to see if the two cards match
+ *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
+ *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
+ *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
+ *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
+ */
 
 card.on('click', function(){
     //Adds classes open and show
@@ -82,59 +152,3 @@ card.on('click', function(){
         $('#modal').modal();
      }
 });
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
-
-/*
-    Even though the shuffle is working, cards are not changing place
-    Use a building page function like html() to build a custom page every load
-    Deleting the cards makes cardArray empty, gotta work on it
-
-    Create a card element that can be multiplied and be sure it has two of the classes
-    selected randomly
-*/
-
-$(window).on('load', function(){
-    //Make cards
-    for (let i = 0; i < 16; i++){
-        $('.deck').append("<li class='card'><i class='fa'></i></li>");
-    }   
-});
-
-//Makes card Array
-var cardArray = jQuery.makeArray(card);
-
-//randomize cards on document load
-window.onload = shuffle(cardArray)
-
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-
-    return array;
-}
-
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
