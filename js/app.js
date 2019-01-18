@@ -2,9 +2,25 @@
  * Create a list that holds all of your cards
  */
 
-//Defines card
+//Defines a single card
 var card = $('.card');
-var type = ['fa-gem','fa-paper-plane','fa-anchor','fa-bolt','fa-cube','fa-leaf', 'fa-bicycle','fa-bomb'];
+//Array of classes to give the cards, 16 in total, they are deleted when attributed
+var type = ['fa-gem',
+            'fa-gem',
+            'fa-paper-plane',
+            'fa-paper-plane',
+            'fa-anchor',
+            'fa-anchor',
+            'fa-bolt',
+            'fa-bolt',
+            'fa-cube',
+            'fa-cube',
+            'fa-leaf',
+            'fa-leaf',
+            'fa-bicycle',
+            'fa-bicycle',
+            'fa-bomb',
+            'fa-bomb'];
 //Array of open cards
 var openCards = [];
 //stars
@@ -19,40 +35,29 @@ var moves = 0;
  *   - add each card's HTML to the page
  */
 
-/*
-    Create all the javascript objects, then, shuffle classes on them
-*/
+$(window).on('load', newGame());
 
-//Make cards on load
-// $(window).on('load', function(){
-//     //make 16 cards
-//     for (let i = 0; i < 16; i++){
-//         //append this html to the .deck ul
-//         $('.deck').append("<li class='card'><i class='fa'></i></li>");
-//         //pick a random class
-//     }
-//     $('.card').each(function(){
-//         console.log('does this work')
-//         var cardType = shuffle(type);
-//         //add this class to the new element
-//         $('.card').addClass(cardType);
-//     })
-// });
-
-//this works, only needs to limit the times a class can appear, prob with a if else
-$(window).on('load', function(){
-    //makes a array of cards
+//Function to shuffle cards and start again
+function newGame() {
+    console.log('shots fired!');
+    //makes the cardArray
     var cardArray = jQuery.makeArray($('.deck li i.fa'));
+    //remove classes from all card elements
+    $('.card').removeClass('match');
+    //resets moves counter
+    moves = 0;
+    //pushes the 0 moves to the html
+    $('.moves').text(moves);
     //shuffle card types
     for (let i = 0; i < 16; i++){
         //shuffles the class
         var cardType = shuffle(type);
         //ads class to the card
         $(cardArray[i]).addClass(cardType[0]);
-        //just so you can see for now
-        $('.card').addClass('open show');
+        //remove that element from cardType array
+        cardType.shift();
     };
-});
+}
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -68,7 +73,6 @@ function shuffle(array) {
 
     return array;
 }
-
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -136,7 +140,7 @@ card.on('click', function(){
         //Print stars on the "you won" modal;
         $('#final-score').append(starArray);
         //print message
-        if (moves <= 20) {
+        if (moves < 20) {
             $('#final-score').append("<br><p>You got all three stars woooooo!</p>");
         }
         else if (moves >= 20 && moves < 30) {

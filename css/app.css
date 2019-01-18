@@ -107,6 +107,10 @@ h1 {
     float: right;
     cursor: pointer;
 }
+.score-panel .time {
+    display: inline-block;
+    padding: 0 10px;
+}
 
 /*
  * Styles for the Modal Content

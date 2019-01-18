@@ -24,7 +24,7 @@
         </div>
             <div class="modal-body">
                 <div id="final-score"></div>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Play again</button>
+                <button type="button" onclick=newGame() class="btn btn-primary " data-dismiss="modal">Play again</button>
             </div>
         </div>
     </div>
@@ -43,10 +43,15 @@
         	</ul>
 
         	<span class="moves">0</span> Moves
+            
+            <div class="time">
+                
+            </div>
 
             <div class="restart">
-        		<i class="fa fa-repeat"></i>
-        	</div>
+        		<i onclick=newGame() class="fas fa-redo"></i>
+            </div>
+            
         </section>
 
         <ul class="deck">
