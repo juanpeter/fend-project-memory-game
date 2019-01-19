@@ -1,7 +1,4 @@
-/*
- * Create a list that holds all of your cards
- */
-
+'use strict'
 //Defines a single card
 const card = $('.card');
 //Array of open cards
@@ -16,13 +13,6 @@ let m = 0;
 let s = 0;
 //timer variable, to be stopped with clearTimeout();
 let timer;
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
 
 $(window).on('load', newGame());
 //Function to shuffle cards and start a new game
@@ -45,6 +35,10 @@ function newGame() {
     const cardArray = jQuery.makeArray($('.deck li i.fa'));
     //remove classes from all card elements
     $('.card').removeClass('match');
+    //also remove open and show
+    $('.card').removeClass('open show');
+    //and empty the openCards array
+    openCards.length = 0;
     //remove all classes from cards
     $('.card i').removeClass('fa-gem fa-paper-plane fa-anchor fa-bolt fa-cube fa-leaf fa-bicycle fa-bomb');
     //resets moves counter
@@ -77,17 +71,6 @@ function shuffle(array) {
     return array;
 }
 
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
-
 card.on('click', function() {
     //Adds classes open and show
     $(this).addClass("open show");
@@ -107,9 +90,20 @@ card.on('click', function() {
     //Appends those elements to the openCards array
     openCards.push($(this));
     //If two cards have been open, check if they have the same icon
-    if (openCards.length >=2) {
-        //if they have the same icon class, it's a match
-        if (openCards[0].html() == openCards[1].html()) {
+    if (openCards.length == 2) {
+        //if the card is the same, don't count as a move
+        if (openCards[0].index() == openCards[1].index()) {
+            //dont count that as a move
+            moves -= 1;
+            //Print the number of moves the player did
+            $('.moves').text(moves);
+            //Delete the last card from openCards array
+            openCards.pop();
+            //reinitiate the function
+            return;
+       }
+        //if they have the same icon class, it's a match, however, they can't be the exact SAME card
+        if (openCards[0].html() == openCards[1].html() && openCards[0].index() != openCards[1].index()) {
             //Adds class ('match') for all openCards Elemments
             openCards[0].addClass("match");
             openCards[1].addClass("match");
@@ -130,10 +124,17 @@ card.on('click', function() {
             }, 750);
         }
     }
-
-    /*The function works well, but removeClass
-     and addClass could be optimized with loops*/
-
+    //check if more than one card is open at the same time
+    if (openCards.length >= 3 ) {
+        //dont count that as a move
+        moves -= 1;
+        //Print the number of moves the player did
+        $('.moves').text(moves);
+        //if there is, remove the last element classes
+        $(openCards[2]).removeClass("open show");
+        //Then delete it
+        openCards.pop();
+    }
      //if all cards have the class 'match', the game is over and the player wins
      if ($('.match').length == 16) {
         //Stop the timer
