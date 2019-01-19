@@ -4,29 +4,18 @@
 
 //Defines a single card
 var card = $('.card');
-//Array of classes to give the cards, 16 in total, they are deleted when attributed
-var type = ['fa-gem',
-            'fa-gem',
-            'fa-paper-plane',
-            'fa-paper-plane',
-            'fa-anchor',
-            'fa-anchor',
-            'fa-bolt',
-            'fa-bolt',
-            'fa-cube',
-            'fa-cube',
-            'fa-leaf',
-            'fa-leaf',
-            'fa-bicycle',
-            'fa-bicycle',
-            'fa-bomb',
-            'fa-bomb'];
 //Array of open cards
 var openCards = [];
 //stars
 var starArray = jQuery.makeArray($('i.fa.fa-star'));
 //moves
 var moves = 0;
+//variable for minutes
+var m = 0;
+//variable for seconds
+var s = 0;
+//timer variable, to be stopped with clearTimeout();
+var timer;
 
 /*
  * Display the cards on the page
@@ -36,14 +25,43 @@ var moves = 0;
  */
 
 $(window).on('load', newGame());
-
-//Function to shuffle cards and start again
+//Function to shuffle cards and start a new game
 function newGame() {
-    console.log('shots fired!');
+    //var with all card types
+    var type = ['fa-gem',
+                'fa-gem',
+                'fa-paper-plane',
+                'fa-paper-plane',
+                'fa-anchor',
+                'fa-anchor',
+                'fa-bolt',
+                'fa-bolt',
+                'fa-cube',
+                'fa-cube',
+                'fa-leaf',
+                'fa-leaf',
+                'fa-bicycle',
+                'fa-bicycle',
+                'fa-bomb',
+                'fa-bomb'];
+    //reset the values of s and m;
+    s = 0;
+    m = 0;
+    //reset the clock
+    clearTimeout(timer);
+    //start the clock function again
+    startTime();
+    //make all stars black again
+    $(starArray).removeClass('far');
+    $(starArray).addClass('fa');
+    //adds stars again
+    $('.stars').append(starArray);
     //makes the cardArray
     var cardArray = jQuery.makeArray($('.deck li i.fa'));
     //remove classes from all card elements
     $('.card').removeClass('match');
+    //remove all classes from cards
+    $('.card i').removeClass('fa-gem fa-paper-plane fa-anchor fa-bolt fa-cube fa-leaf fa-bicycle fa-bomb');
     //resets moves counter
     moves = 0;
     //pushes the 0 moves to the html
@@ -93,15 +111,15 @@ card.on('click', function(){
     //Print the number of moves the player did
     $('.moves').text(moves);
     //Change full stars to white stars on threshold
-    if (moves >= 20) {
+    if (moves >= 25) {
         $(starArray[0]).removeClass('fa');
         $(starArray[0]).addClass('far');
     }
-    if (moves >= 30) {
+    if (moves >= 35) {
         $(starArray[1]).removeClass('fa');
         $(starArray[1]).addClass('far');
     }
-    if (moves >= 40) {
+    if (moves >= 45) {
         $(starArray[2]).removeClass('fa');
         $(starArray[2]).addClass('far');
     }
@@ -137,22 +155,51 @@ card.on('click', function(){
 
      //if all cards have the class 'match', the game is over and the player wins
      if ($('.match').length == 16) {
+        //Stop the timer
+        clearTimeout(timer);
+        // //Print the time in the modal GOTTA WORK ON IT
+        // $('#final-time').append();
         //Print stars on the "you won" modal;
         $('#final-score').append(starArray);
         //print message
-        if (moves < 20) {
+        if (moves < 25) {
             $('#final-score').append("<br><p>You got all three stars woooooo!</p>");
         }
-        else if (moves >= 20 && moves < 30) {
+        else if (moves >= 25 && moves < 35) {
             $('#final-score').append("<br><p>You got two stars, good job!</p>");
         }
-        else if (moves >= 30 && moves < 40) {
+        else if (moves >= 35 && moves < 45) {
             $('#final-score').append("<br><p>You got one star, don't give up!</p>");
         }
-        else if (moves >= 40) {
+        else if (moves >= 45) {
             $('#final-score').append("<br><p>You got no stars, but you can do it next time!</p>");
         }
+        //Append the time won
+        $('#final-time').append($('.time').html())
         //Calls the modal
         $('#modal').modal();
      }
 });
+
+function startTime() {
+    //Every second that passes, add 1 to seconds
+    s += 1;
+    //if 60 seconds have passed, add a minute to the counter
+    if (s >= 60) {
+        s = 0;
+        m += 1;
+    }
+    //if the ammount of time is less than 10 seconds, add a 0 at the beginning of html
+    if (s < 10) {
+        $('.time').html("<p>Time: 0"+m+":0"+s+"</p>");
+    }
+    //if the ammount of time is higher than 10 seconds, remove 0 from s
+    if (s >= 10) {
+        $('.time').html("<p>Time: 0"+m+":"+s+"</p>");
+    }
+    //if the ammount of time is higher than 10 minutes, remove 0 from m
+    if (m >= 10) {
+        $('.time').html("<p>Time: "+m+":"+s+"</p>");
+    }
+    timer = setTimeout(function(){startTime()},1000);
+}
