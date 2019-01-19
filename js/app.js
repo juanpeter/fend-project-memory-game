@@ -3,19 +3,19 @@
  */
 
 //Defines a single card
-var card = $('.card');
+const card = $('.card');
 //Array of open cards
-var openCards = [];
+const openCards = [];
 //stars
-var starArray = jQuery.makeArray($('i.fa.fa-star'));
+const starArray = jQuery.makeArray($('i.fa.fa-star'));
 //moves
-var moves = 0;
+let moves = 0;
 //variable for minutes
-var m = 0;
+let m = 0;
 //variable for seconds
-var s = 0;
+let s = 0;
 //timer variable, to be stopped with clearTimeout();
-var timer;
+let timer;
 
 /*
  * Display the cards on the page
@@ -28,22 +28,7 @@ $(window).on('load', newGame());
 //Function to shuffle cards and start a new game
 function newGame() {
     //var with all card types
-    var type = ['fa-gem',
-                'fa-gem',
-                'fa-paper-plane',
-                'fa-paper-plane',
-                'fa-anchor',
-                'fa-anchor',
-                'fa-bolt',
-                'fa-bolt',
-                'fa-cube',
-                'fa-cube',
-                'fa-leaf',
-                'fa-leaf',
-                'fa-bicycle',
-                'fa-bicycle',
-                'fa-bomb',
-                'fa-bomb'];
+    const type = ['fa-gem','fa-gem','fa-paper-plane','fa-paper-plane','fa-anchor','fa-anchor','fa-bolt','fa-bolt','fa-cube','fa-cube','fa-leaf','fa-leaf','fa-bicycle','fa-bicycle','fa-bomb','fa-bomb'];
     //reset the values of s and m;
     s = 0;
     m = 0;
@@ -57,7 +42,7 @@ function newGame() {
     //adds stars again
     $('.stars').append(starArray);
     //makes the cardArray
-    var cardArray = jQuery.makeArray($('.deck li i.fa'));
+    const cardArray = jQuery.makeArray($('.deck li i.fa'));
     //remove classes from all card elements
     $('.card').removeClass('match');
     //remove all classes from cards
@@ -67,9 +52,9 @@ function newGame() {
     //pushes the 0 moves to the html
     $('.moves').text(moves);
     //shuffle card types
-    for (let i = 0; i < 16; i++){
+    for (let i = 0; i < 16; i++) {
         //shuffles the class
-        var cardType = shuffle(type);
+        const cardType = shuffle(type);
         //ads class to the card
         $(cardArray[i]).addClass(cardType[0]);
         //remove that element from cardType array
@@ -103,7 +88,7 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-card.on('click', function(){
+card.on('click', function() {
     //Adds classes open and show
     $(this).addClass("open show");
     //Adds a 'move' counter
@@ -118,10 +103,6 @@ card.on('click', function(){
     if (moves >= 35) {
         $(starArray[1]).removeClass('fa');
         $(starArray[1]).addClass('far');
-    }
-    if (moves >= 45) {
-        $(starArray[2]).removeClass('fa');
-        $(starArray[2]).addClass('far');
     }
     //Appends those elements to the openCards array
     openCards.push($(this));
@@ -146,7 +127,7 @@ card.on('click', function(){
                 openCards[1].removeClass("open show");
                 //Remove elements from array after done
                 openCards.splice(0,2);
-            }, 750); 
+            }, 750);
         }
     }
 
@@ -157,22 +138,16 @@ card.on('click', function(){
      if ($('.match').length == 16) {
         //Stop the timer
         clearTimeout(timer);
-        // //Print the time in the modal GOTTA WORK ON IT
-        // $('#final-time').append();
-        //Print stars on the "you won" modal;
         $('#final-score').append(starArray);
         //print message
         if (moves < 25) {
-            $('#final-score').append("<br><p>You got all three stars woooooo!</p>");
+            $('#final-score').append("<br><p>You got all three stars, congratulations!</p>");
         }
         else if (moves >= 25 && moves < 35) {
             $('#final-score').append("<br><p>You got two stars, good job!</p>");
         }
-        else if (moves >= 35 && moves < 45) {
+        else if (moves > 35) {
             $('#final-score').append("<br><p>You got one star, don't give up!</p>");
-        }
-        else if (moves >= 45) {
-            $('#final-score').append("<br><p>You got no stars, but you can do it next time!</p>");
         }
         //Append the time won
         $('#final-time').append($('.time').html())
